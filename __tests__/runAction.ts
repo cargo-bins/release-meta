@@ -19,6 +19,7 @@ export function runAction(inputs: {[key: string]: string}): {
 		}
 	};
 
+	console.log(options);
 	const output = cp.execFileSync(np, [ip], options).toString();
 	console.log(output);
 
