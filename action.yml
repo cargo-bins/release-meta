@@ -28,7 +28,7 @@ outputs:
   crates-names:
     description: Convenience value of crates.*.name as a comma-separated string.
   crates-paths:
-    description: Convenience value of crates.*.path as a newline-separated string.
+    description: Convenience value of crates.*.path as a colon-separated string.
 runs:
   using: node16
   main: dist/index.js

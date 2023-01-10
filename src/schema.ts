@@ -10,7 +10,7 @@ export default async function getInputs(): Promise<InputsType> {
 	debug('validating inputs');
 	const inputs = await SCHEMA.validate({
 		eventData: getInput('event-data'),
-		extractNotesUnder: getInput('extractNotesUnder')
+		extractNotesUnder: getInput('extract-notes-under')
 	});
 
 	debug(`inputs: ${JSON.stringify(inputs)}`);

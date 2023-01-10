@@ -68,7 +68,7 @@ All outputs of a Github Action are strings.
 | `version` | JSON of an object with keys: `actual` (string, the version that was released), `desired` (string, either the same as `actual` or the strings `minor`, `patch`, etc), `previous` (string, the version the crate was at before that release). |
 | `notes` | If `extract-notes-under` and its corresponding section in the PR body were present, the content of that section. |
 | `crates-names` | For convenience, the values of `crates.*.name`, comma-separated. |
-| `crates-paths` | For convenience, the values of `crates.*.path`, newline-separated. |
+| `crates-paths` | For convenience, the values of `crates.*.path`, colon-separated. |
 | `version-actual` | For convenience, the value of `version.actual`. |
 | `version-desired` | For convenience, the value of `version.desired`. |
 | `version-previous` | For convenience, the value of `version.previous`. |
