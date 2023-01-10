@@ -19,10 +19,11 @@ export function runAction(inputs: {[key: string]: string}): {
 		}
 	};
 
+	const output = cp.execFileSync(np, [ip], options).toString();
+	console.log(output);
+
 	return Object.fromEntries(
-		cp
-			.execFileSync(np, [ip], options)
-			.toString()
+		output
 			.split('\n')
 			.filter(line => line.startsWith('::set-output name='))
 			.map(line => {
