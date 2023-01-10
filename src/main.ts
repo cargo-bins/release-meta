@@ -9,7 +9,8 @@ import getInputs from './schema';
 		const inputs = await getInputs();
 
 		const body = inputs?.eventData?.pull_request?.body;
-		if (typeof body !== 'string') throw new Error('Event data input is malformed');
+		if (typeof body !== 'string')
+			throw new Error('Event data input is malformed');
 
 		const releaseData = await extractReleaseData(body);
 		const releaseNotes = inputs.extractNotesUnder
@@ -110,7 +111,10 @@ function extractReleaseNotes(
 	const lines = prBody.split(/\r?\n/);
 	const index = lines.findIndex(line => line.trim() === extractNotesUnder);
 	if (index === -1) return false;
-	return lines.slice(index + 1).join('\n').trim();
+	return lines
+		.slice(index + 1)
+		.join('\n')
+		.trim();
 }
 
 interface CrateData {

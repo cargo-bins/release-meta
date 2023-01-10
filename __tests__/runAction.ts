@@ -2,7 +2,9 @@ import * as process from 'process';
 import * as cp from 'child_process';
 import * as path from 'path';
 
-export function runAction(inputs: {[key: string]: string}): {[key: string]: string} {
+export function runAction(inputs: {[key: string]: string}): {
+	[key: string]: string;
+} {
 	const np = process.execPath;
 	const ip = path.join(__dirname, '..', 'lib', 'main.js');
 	const options: cp.ExecFileSyncOptions = {
