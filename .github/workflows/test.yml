@@ -16,5 +16,7 @@ jobs:
           node-version: 16.x
       - run: npm install
       - run: npm run build
-      - run: node lib/main.js || true
+      - run: node lib/main.js
+        env:
+          INPUT_EVENT-DATA: "{\"pull_request\":{\"body\":\"\"}}"
       - run: npm run all
