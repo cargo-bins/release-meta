@@ -3,20 +3,20 @@ import {object, string} from 'yup';
 
 const SCHEMA = object({
 	eventData: string().required(),
-	extractNotesUnder: string().optional(),
+	extractNotesUnder: string().optional()
 }).noUnknown();
 
 export default async function getInputs(): Promise<InputsType> {
 	debug('validating inputs');
 	const inputs = await SCHEMA.validate({
 		eventData: getInput('event-data'),
-		extractNotesUnder: getInput('extractNotesUnder'),
+		extractNotesUnder: getInput('extractNotesUnder')
 	});
 
 	debug(`inputs: ${JSON.stringify(inputs)}`);
 	return {
 		eventData: JSON.parse(inputs.eventData),
-		extractNotesUnder: inputs.extractNotesUnder,
+		extractNotesUnder: inputs.extractNotesUnder
 	};
 }
 

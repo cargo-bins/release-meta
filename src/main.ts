@@ -1,10 +1,4 @@
-import {
-	setFailed,
-	debug,
-	setOutput,
-	error as _error,
-} from '@actions/core';
-import {exec as _exec} from '@actions/exec';
+import {setFailed, debug, setOutput} from '@actions/core';
 import {Parser} from 'htmlparser2';
 import {object, string, array} from 'yup';
 
@@ -18,7 +12,9 @@ import getInputs from './schema';
 		if (!body) throw new Error('Event data input is malformed');
 
 		const releaseData = await extractReleaseData(body);
-		const releaseNotes = inputs.extractNotesUnder ? extractReleaseNotes(body, inputs.extractNotesUnder) : null;
+		const releaseNotes = inputs.extractNotesUnder
+			? extractReleaseNotes(body, inputs.extractNotesUnder)
+			: null;
 
 		if (!releaseData) {
 			setOutput('is-release', 'false');
@@ -30,8 +26,14 @@ import getInputs from './schema';
 		setOutput('crates', JSON.stringify(releaseData.crates));
 		setOutput('version', JSON.stringify(releaseData.version));
 
-		setOutput('crates-names', releaseData.crates.map(crate => crate.name).join(','));
-		setOutput('crates-paths', releaseData.crates.map(crate => crate.path).join('\n'));
+		setOutput(
+			'crates-names',
+			releaseData.crates.map(crate => crate.name).join(',')
+		);
+		setOutput(
+			'crates-paths',
+			releaseData.crates.map(crate => crate.path).join('\n')
+		);
 
 		setOutput('version-actual', releaseData.version.actual);
 		setOutput('version-desired', releaseData.version.desired);
@@ -45,9 +47,9 @@ import getInputs from './schema';
 	}
 })();
 
-function extractReleaseData(prBody: string): Promise<CrateData | false> {
+async function extractReleaseData(prBody: string): Promise<CrateData | false> {
 	let foundComment = false;
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const parser = new Parser({
 			oncomment: (comment: string) => {
 				foundComment = true;
@@ -59,7 +61,7 @@ function extractReleaseData(prBody: string): Promise<CrateData | false> {
 			},
 			onerror: () => {
 				if (!foundComment) resolve(false);
-			},
+			}
 		});
 		parser.write(prBody);
 		parser.end();
@@ -79,18 +81,26 @@ function parseComment(comment: string): CrateData | false {
 }
 
 const V2_SCHEMA = object({
-	crates: array().of(object({
-		name: string().required(),
-		path: string().required(),
-	})).min(1).required(),
+	crates: array()
+		.of(
+			object({
+				name: string().required(),
+				path: string().required()
+			})
+		)
+		.min(1)
+		.required(),
 	version: object({
 		actual: string().required(),
 		desired: string().required(),
-		previous: string().required(),
-	}).required(),
+		previous: string().required()
+	}).required()
 });
 
-function extractReleaseNotes(prBody: string, extractNotesUnder: string): string | false {
+function extractReleaseNotes(
+	prBody: string,
+	extractNotesUnder: string
+): string | false {
 	const lines = prBody.split(/\r?\n/);
 	const index = lines.findIndex(line => line === extractNotesUnder);
 	if (index === -1) return false;
