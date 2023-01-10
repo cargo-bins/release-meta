@@ -1,0 +1,34 @@
+name: Cargo Release PR metadata extractor
+description: Extract the metadata of a PR created by cargo-bins/release-pr
+branding:
+  icon: filter
+  color: orange
+inputs:
+  event-data:
+    description: pull_request event data, in JSON
+    required: true
+  extract-notes-under:
+    description: Line under which the release notes are placed. If not provided, notes are not extracted.
+    required: false
+outputs:
+  is-release:
+    description: The strings 'true' or 'false' if the pull_request given was a release PR with metadata.
+  version:
+    description: Version data of the release PR, in JSON.
+  crates:
+    description: Crates data of the release PR, in JSON.
+  notes:
+    description: Notes extracted from the release PR, as a string.
+  version-actual:
+    description: Convenience value of version.actual as a string.
+  version-previous:
+    description: Convenience value of version.previous as a string.
+  version-desired:
+    description: Convenience value of version.desired as a string.
+  crates-names:
+    description: Convenience value of crates.*.name as a comma-separated string.
+  crates-paths:
+    description: Convenience value of crates.*.path as a newline-separated string.
+runs:
+  using: node16
+  main: dist/index.js
