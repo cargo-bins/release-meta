@@ -69,7 +69,9 @@ function extractReleaseData(prBody: string): Promise<CrateData | false> {
 function parseComment(comment: string): CrateData | false {
 	try {
 		const data = JSON.parse(comment);
-		return V2_SCHEMA.validateSync(data['release-pr']?.v2);
+		const v2 = V2_SCHEMA.validateSync(data['release-pr']?.v2);
+		if (v2) return v2;
+		else return false;
 	} catch (err) {
 		debug(`Failed to parse comment: ${err}`);
 		return false;
@@ -80,12 +82,12 @@ const V2_SCHEMA = object({
 	crates: array().of(object({
 		name: string().required(),
 		path: string().required(),
-	})).min(1),
+	})).min(1).required(),
 	version: object({
 		actual: string().required(),
 		desired: string().required(),
 		previous: string().required(),
-	}),
+	}).required(),
 });
 
 function extractReleaseNotes(prBody: string, extractNotesUnder: string): string | false {

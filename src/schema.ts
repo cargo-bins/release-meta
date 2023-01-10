@@ -22,7 +22,7 @@ export default async function getInputs(): Promise<InputsType> {
 
 export interface InputsType {
 	eventData: EventData;
-	extractNotesUnder: string;
+	extractNotesUnder?: string;
 }
 
 export interface EventData {
