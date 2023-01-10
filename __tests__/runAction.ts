@@ -16,12 +16,10 @@ export function runAction(inputs: {[key: string]: string}): {
 		)
 	};
 
-	console.log(options, [np, ip]);
-	const output = cp.execFileSync(np, [ip], options).toString();
-	console.log(output);
-
 	return Object.fromEntries(
-		output
+		cp
+			.execFileSync(np, [ip], options)
+			.toString()
 			.split('\n')
 			.filter(line => line.startsWith('::set-output name='))
 			.map(line => {
