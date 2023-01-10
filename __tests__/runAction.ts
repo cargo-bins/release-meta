@@ -8,18 +8,15 @@ export function runAction(inputs: {[key: string]: string}): {
 	const np = process.execPath;
 	const ip = path.join(__dirname, '..', 'lib', 'main.js');
 	const options: cp.ExecFileSyncOptions = {
-		env: {
-			...process.env,
-			...Object.fromEntries(
-				Object.entries(inputs).map(([key, value]) => [
-					`INPUT_${key.toUpperCase()}`,
-					value
-				])
-			)
-		}
+		env: Object.fromEntries(
+			Object.entries(inputs).map(([key, value]) => [
+				`INPUT_${key.toUpperCase()}`,
+				value
+			])
+		)
 	};
 
-	console.log(options);
+	console.log(options, [np, ip]);
 	const output = cp.execFileSync(np, [ip], options).toString();
 	console.log(output);
 
