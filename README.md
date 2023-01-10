@@ -26,7 +26,7 @@ on:
 
 jobs:
   info:
-    if: ${{ github.event.merged }}
+    if: github.event.pull_request.merged
 
     outputs: # specific fields extracted from the action's outputs
       is-release: ${{ steps.meta.outputs.is-release }}
@@ -44,7 +44,7 @@ jobs:
 
   release:
     needs: info
-    if: needs.info.is-release == 'true'
+    if: needs.info.outputs.is-release == 'true'
     # ...
 ```
 
